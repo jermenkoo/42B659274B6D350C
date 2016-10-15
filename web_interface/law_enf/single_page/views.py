@@ -21,5 +21,5 @@ def get_transcript(request):
 
 
 def home(request):
-    objects = Query.objets.all()
+    objects = Query.objects.all()
     return render(request, 'index.html', {})
