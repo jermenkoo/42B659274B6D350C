@@ -72,7 +72,7 @@ ROOT_URLCONF = 'law_enf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'law_enf', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
