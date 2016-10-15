@@ -41,18 +41,25 @@
 			</section>
 
 		<!-- Feature 1 -->
-			<article id="first" class="container box style1 right">
-				<a href="#" class="image fit"><img src="{% static "images/pic01.jpg" %}" alt="" /></a>
+			{% for object in objects %}
+			<article id="first" class="container box style1 left">
+				<a href="" class="image fit">
+					<div class="inner">
+						<header>
+						{% if not object.approved %}<input type="button" value="Approve" style="margin-top: 55%;margin-bottom: 50%;margin-left: 75%;margin-bottom: 50%">{% endif %}
+						</header>
+					</div></a>
 				<div class="inner">
 					<header>
-						<h2>Lorem ipsum<br />
-						dolor sit amet</h2>
+						<h2>{% if object.approved %}APPROVED{% else %}DENIED{% endif %}</h2>
 					</header>
-					<p>Tortor faucibus ullamcorper nec tempus purus sed penatibus. Lacinia pellentesque eleifend vitae est elit tristique velit tempus etiam.</p>
+					<p>{{ object.transcript }}</p>
+					<p>Encrypted number: {{ object.encrypted_phone}}</p>
 				</div>
 			</article>
+			{% endfor %}
 
-		<!-- Feature 2 -->
+		<!-- Feature 2
 			<article class="container box style1 left">
 				<a href="#" class="image fit"><img src="{% static "images/pic02.jpg" %}" alt="" /></a>
 				<div class="inner">
@@ -62,7 +69,7 @@
 					</header>
 					<p>Rhoncus mattis egestas sed fusce sodales rutrum et etiam ullamcorper. Etiam egestas scelerisque ac duis magna lorem ipsum dolor.</p>
 				</div>
-			</article>
+			</article> -->
 
 		<!-- Portfolio -->
 			<article class="container box style2">
