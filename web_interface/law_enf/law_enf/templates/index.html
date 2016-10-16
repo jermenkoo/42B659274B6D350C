@@ -46,7 +46,7 @@
 				<a href="" class="image fit">
 					<div class="inner">
 						<header>
-						{% if not object.approved %}<input type="button" value="Approve" style="margin-top: 55%;margin-bottom: 50%;margin-left: 75%;margin-bottom: 50%">{% endif %}
+						{% if not object.approved %}<input id="encrypt_data" type="button" value="Approve" style="margin-top: 55%;margin-bottom: 50%;margin-left: 75%;margin-bottom: 50%">{% endif %}
 						</header>
 					</div></a>
 				<div class="inner">
@@ -54,7 +54,7 @@
 						<h2>{% if object.approved %}APPROVED{% else %}DENIED{% endif %}</h2>
 					</header>
 					<p>{{ object.transcript }}</p>
-					<p>Encrypted number: {{ object.encrypted_phone}}</p>
+					<p id="encrypted_number">Encrypted number: {{ object.encrypted_phone}}</p>
 				</div>
 			</article>
 			{% endfor %}
@@ -297,6 +297,52 @@
 			<script src="{% static "assets/js/util.js" %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
+			<script type="text/javascript">
+					function getCookie(name) {
+						var cookieValue = null;
+						if (document.cookie && document.cookie !== '') {
+									var cookies = document.cookie.split(';');
+									for (var i = 0; i < cookies.length; i++) {
+											var cookie = jQuery.trim(cookies[i]);
+											// Does this cookie string begin with the name we want?
+											if (cookie.substring(0, name.length + 1) === (name + '=')) {
+													cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+													break;
+											}
+									}
+							}
+							return cookieValue;
+						}
+
+					var csrftoken = getCookie('csrftoken');
+					// console.log(csrftoken);
+					function csrfSafeMethod(method) {
+						// these HTTP methods do not require CSRF protection
+						return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+					}
+
+					$.ajaxSetup({
+						beforeSend: function(xhr, settings) {
+								if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+										xhr.setRequestHeader("X-CSRFToken", csrftoken);
+								}
+						}
+					});
+
+				$('#encrypt_data').on('click', function(){
+					$.ajax({
+		       type: "POST",
+		       url: "/decrypt_phone",
+		       data: data,
+		       success: function() {
+		           console.log("I have sent the data successfully");
+		       },
+		       error: function(data) {
+		           console.log(data);
+		       }
+				})
+			})
+			</script>
 
 	</body>
 </html>
