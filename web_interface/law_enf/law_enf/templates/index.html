@@ -46,7 +46,7 @@
 				<a href="" class="image fit">
 					<div class="inner">
 						<header>
-						{% if not object.approved %}<input id="encrypt_data" type="button" value="Approve" style="margin-top: 55%;margin-bottom: 50%;margin-left: 75%;margin-bottom: 50%">{% endif %}
+						{% if not object.approved %}<input class="encrypt_data" id="{{ object.encrypted_phone }}" type="button" value="Approve" style="margin-top: 55%;margin-bottom: 50%;margin-left: 75%;margin-bottom: 50%">{% endif %}
 						</header>
 					</div></a>
 				<div class="inner">
@@ -54,7 +54,7 @@
 						<h2>{% if object.approved %}APPROVED{% else %}DENIED{% endif %}</h2>
 					</header>
 					<p>{{ object.transcript }}</p>
-					<p id="encrypted_number">Encrypted number: {{ object.encrypted_phone}}</p>
+					<p id="{{ object.encrypted_phone }}_text">Encrypted number: {{ object.encrypted_phone}}</p>
 				</div>
 			</article>
 			{% endfor %}
@@ -329,16 +329,22 @@
 						}
 					});
 
-				$('#encrypt_data').on('click', function(){
+				$('.encrypt_data').on('click', function(e){
+					e.preventDefault()
+					value = $(this).attr('id');
 					$.ajax({
 		       type: "POST",
 		       url: "/decrypt_phone",
-		       data: data,
-		       success: function() {
-		           console.log("I have sent the data successfully");
+		       data: {"data": $(this).attr('id')},
+		       success: function(data) {
+						 	 console.log("hey sup");
+		          //  data = JSON.parse(data);
+							 console.log("Decrypted Phone: " + data.number);
+							 console.log("#" + value + "_text");
+							 $("#" + value + "_text").text("Decrypted Phone: " + data.number)
 		       },
-		       error: function(data) {
-		           console.log(data);
+		       error: function() {
+		           console.log("something stupid");
 		       }
 				})
 			})

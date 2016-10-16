@@ -26,5 +26,6 @@ def home(request):
 
 
 def decrypt(request):
-    print(request.POST)
-    return JsonResponse({"success": True})
+    number = request.POST["data"]
+    #write decrypt function here
+    return JsonResponse({"number": number})
