@@ -1,3 +1,5 @@
+import requests as r
+
 from flask import Flask, request
 from twilio import twiml
 
@@ -22,6 +24,13 @@ def record():
 @app.route('/calculate', methods=['GET', 'POST'])
 def callback():
     text = request.form['TranscriptionText']
+    call = request.form['Caller']
+
+    req = r.post('https://ae6c1cf8.ngrok.io/add_query', data={
+        'text': text, 'encrypted_phone': call})
+
+    print(text)
+
     return text
 
 if __name__ == "__main__":
