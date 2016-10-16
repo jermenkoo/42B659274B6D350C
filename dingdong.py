@@ -14,11 +14,15 @@ def record():
     # Use <Say> to give the caller some instructions
     response.say('Hello. Please leave a message after the beep.')
     # Use <Record> to record the caller's message
-    response.record(transcribe=True, transcribeCallback='/calculate')
+    # response.record(transcribe=True, transcribeCallback='/calculate')
+    response.record(transcribe=True)
     # End the call with <Hangup>
     response.hangup()
 
-    return str(response)
+    req = r.post('https://ae6c1cf8.ngrok.io/add_query', data={
+        'text': 'Hello, I am at this concert and I am feeling offended by these 2 strangers being touchy with me.', 'enc_phone': '447598428430'})
+    print(req)
+    return str(response or "Hi")
 
 
 @app.route('/calculate', methods=['GET', 'POST'])
