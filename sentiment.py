@@ -14,6 +14,8 @@ _temp_wordlist_ = {
     'inadequate': 10,
     'exploit': 10,
     'sex': 10,
+    'stranger': 10,
+    'touchy': 5,
     'stop': 3,
     'hurt': 10,
     'report': 8,
