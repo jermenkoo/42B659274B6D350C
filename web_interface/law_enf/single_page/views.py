@@ -24,8 +24,9 @@ def home(request):
     objects = Query.objects.all()
     return render(request, 'index.html', {'objects': objects})
 
-
+@csrf_exempt
 def decrypt(request):
+    print(request.POST)
     number = request.POST["data"]
     #write decrypt function here
     return JsonResponse({"number": number})
