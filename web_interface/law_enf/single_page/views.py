@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Query
-
+import string
 # Create your views here.
 
 
@@ -26,7 +26,43 @@ def home(request):
 
 @csrf_exempt
 def decrypt(request):
-    print(request.POST)
     number = request.POST["data"]
-    #write decrypt function here
-    return JsonResponse({"number": number})
+    return JsonResponse({"number": decrypt("12345678", number)})
+
+charset = string.digits + string.ascii_lowercase + string.ascii_uppercase
+
+
+def encrypt(key, message):
+    translated = []
+    index = 0
+    for symbol in message:
+        num = charset.find(symbol)
+        if num != -1:
+            num += charset.find(key[index])
+            num %= len(charset)
+
+            index += 1
+            if index == len(key):
+                index = 0
+            translated.append(charset[num])
+        else:
+            translated.append(symbol)
+    return ''.join(translated)
+
+
+def decrypt(key, message):
+    translated = []
+    index = 0
+    for symbol in message:
+        num = charset.find(symbol)
+        if num != -1:
+            num -= charset.find(key[index])
+            num %= len(charset)
+
+            index += 1
+            if index == len(key):
+                index = 0
+            translated.append(charset[num])
+        else:
+            translated.append(symbol)
+    return ''.join(translated)
