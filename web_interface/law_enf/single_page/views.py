@@ -14,7 +14,7 @@ def get_transcript(request):
         encrypted_phone = request.POST.get("enc_phone")
         obj = Query(
             transcript=text,
-            encrypted_phone=encrypted_phone
+            encrypted_phone=encrypt(encrypted_phone)
         )
         obj.save()
     return JsonResponse({"success": True})
@@ -25,7 +25,7 @@ def home(request):
     return render(request, 'index.html', {'objects': objects})
 
 @csrf_exempt
-def decrypt(request):
+def _decrypt(request):
     number = request.POST["data"]
     return JsonResponse({"number": decrypt("12345678", number)})
 
