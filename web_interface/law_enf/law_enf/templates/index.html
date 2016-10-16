@@ -51,7 +51,7 @@
 					</div></a>
 				<div class="inner">
 					<header>
-						<h2>{% if object.approved %}APPROVED{% else %}DENIED{% endif %}</h2>
+						<h2 id="{{ object.encrypted_phone }}_permission">{% if object.approved %}APPROVED{% else %}DENIED{% endif %}</h2>
 					</header>
 					<p>{{ object.transcript }}</p>
 					<p id="{{ object.encrypted_phone }}_text">Encrypted number: {{ object.encrypted_phone}}</p>
@@ -342,6 +342,7 @@
 							 console.log("Decrypted Phone: " + data.number);
 							 console.log("#" + value + "_text");
 							 $("#" + value + "_text").text("Decrypted Phone: " + data.number)
+							  $("#" + value + "_permission").text("Access Granted")
 		       },
 		       error: function() {
 		           console.log("something stupid");
