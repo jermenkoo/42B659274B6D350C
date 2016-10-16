@@ -14,7 +14,7 @@ def get_transcript(request):
         encrypted_phone = request.POST.get("enc_phone")
         obj = Query(
             transcript=text,
-            encrypted_phone=encrypt(encrypted_phone)
+            encrypted_phone=encrypt("12345678", encrypted_phone)
         )
         obj.save()
     return JsonResponse({"success": True})
@@ -23,6 +23,7 @@ def get_transcript(request):
 def home(request):
     objects = Query.objects.all()
     return render(request, 'index.html', {'objects': objects})
+
 
 @csrf_exempt
 def _decrypt(request):
@@ -40,7 +41,6 @@ def encrypt(key, message):
         if num != -1:
             num += charset.find(key[index])
             num %= len(charset)
-
             index += 1
             if index == len(key):
                 index = 0
